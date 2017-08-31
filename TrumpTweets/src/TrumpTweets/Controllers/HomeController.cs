@@ -39,7 +39,7 @@ namespace TrumpTweets.Controllers
             //string tweets = System.IO.File.ReadAllText(file);
 
             // use test data while coding isntead
-            string tweets = @"[{'source': 'Twitter for iPhone', 'id_str': '815271067749060609', 'text': 'RT @realDonaldTrump: Happy Birthday @DonaldJTrumpJr!\nhttps://t.co/uRxyCD3hBz', 'created_at': 'Sat Dec 31 18:59:04 +0000 2016', 'retweet_count': 9529, 'in_reply_to_user_id_str': null, 'favorite_count': 0, 'is_retweet': true},{'source': 'Twitter for iPhone', 'id_str': '814920722208296960', 'text': 'Happy Join @AmerIcan32, founded by Hall of Fame legend legend @JimBrownNFL32 onsin Washington, D.C.\u2026 https://t.co/9WJZ8iTCQV', 'created_at': 'Fri Dec 30 19:46:55 +0000 2016', 'retweet_count': 7366, 'in_reply_to_user_id_str': null, 'favorite_count': 25336, 'is_retweet': false}]";
+            string tweets = @"[{'source': 'Twitter for iPhone', 'id_str': '815271067749060609', 'text': 'RT RT @realDonaldTrump: Happy Happy Birthday @DonaldJTrumpJr!\nhttps://t.co/uRxyCD3hBz', 'created_at': 'Sat Dec 31 18:59:04 +0000 2016', 'retweet_count': 9529, 'in_reply_to_user_id_str': null, 'favorite_count': 0, 'is_retweet': true},{'source': 'Twitter for iPhone', 'id_str': '814920722208296960', 'text': 'Happy Join @AmerIcan32, founded by Hall of Fame legend legend @JimBrownNFL32 onsin Washington, D.C.\u2026 https://t.co/9WJZ8iTCQV', 'created_at': 'Fri Dec 30 19:46:55 +0000 2016', 'retweet_count': 7366, 'in_reply_to_user_id_str': null, 'favorite_count': 25336, 'is_retweet': false}]";
             List<Tweet> list = JsonConvert.DeserializeObject<List<Tweet>>(tweets);
 
             // we will need a dictionary wordCounts
@@ -68,7 +68,7 @@ namespace TrumpTweets.Controllers
                 }
             }
 
-            var q = wordCounts.OrderByDescending(kvp => kvp.Value);
+            var q = wordCounts.OrderByDescending(kvp => kvp.Value).ThenBy(kvp => kvp.Key);
             foreach (var word in q)
             {
                 log += word.Key + " " + word.Value + "\n";

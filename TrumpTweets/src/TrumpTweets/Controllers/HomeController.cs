@@ -34,7 +34,7 @@ namespace TrumpTweets.Controllers
             //AvgLengthOfTweetBySource();
             // method store text data from each tweet
             // render this data in View for a small number of those tweets
-            ViewData["log"] = log;
+            ViewBag.log = log;
             return View();
         }
 
@@ -77,6 +77,20 @@ namespace TrumpTweets.Controllers
                 log += word.Key + " " + word.Value + "\n";
             }
 
+            // We won't need to return log anymore; but I want to 'fake' json 
+            //log = @"[{'text':'study','size':40},{'text':'motion','size':15},{'text':'forces','size':10},{'text':'electricity','size':15}]";
+
+
+            var wordsForCloud = new List<CloudWord>();
+            foreach (var thing in wordCounts)
+            {
+                wordsForCloud.Add(new CloudWord() { text = thing.Key, size = thing.Value*10 });
+            }
+
+            string json = JsonConvert.SerializeObject(wordsForCloud);
+
+            log = json;
+
             return log;
 
         }
@@ -108,6 +122,9 @@ namespace TrumpTweets.Controllers
             return log;
 
         }
+
+
+
     }
 }
 

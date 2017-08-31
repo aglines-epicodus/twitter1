@@ -15,12 +15,15 @@ namespace TrumpTweets.Controllers
 {
     public class HomeController : Controller
     {
+        string log = "";
+
         public IActionResult Index()
         {
             ConvertTweets();
-            
+
             // method store text data from each tweet
             // render this data in View for a small number of those tweets
+            ViewData["log"] = log;
             return View();
         }
 
@@ -29,7 +32,7 @@ namespace TrumpTweets.Controllers
             return View();
         }
 
-        public void ConvertTweets()
+        public string ConvertTweets()
         {
             //Uncomment the next 2 lines to use actual file - but it needs a relative path, won't work on other computers?
             //string file = @"C:\Users\Andrew Glines\Source\Repos\twitter1\TrumpTweets\src\TrumpTweets\realDonaldTrump2016tweets.json";
@@ -48,6 +51,8 @@ D.C.\u2026 https://t.co/9WJZ8iTCQV', 'created_at': 'Fri Dec 30 19:46:55 +0000 20
             // we will need a dictionary wordCounts
             Dictionary<string, int> wordCounts = new Dictionary<string, int>();
 
+          
+
             //process data
             foreach (Tweet item in list)
             {
@@ -63,14 +68,14 @@ D.C.\u2026 https://t.co/9WJZ8iTCQV', 'created_at': 'Fri Dec 30 19:46:55 +0000 20
                     if (!wordCounts.ContainsKey(word))
                     {
                         wordCounts.Add(word, 1);
-                        System.Diagnostics.Debug.WriteLine("11111111111 new word " + word);
+                        //System.Diagnostics.Debug.WriteLine("11111111111 new word " + word);
                     }
                     else
                     {
                         wordCounts[word] = wordCounts[word] + 1;
-                        System.Diagnostics.Debug.WriteLine("2222222222 repeated word " + word + " count is now " + wordCounts[word]);
-
+                        //System.Diagnostics.Debug.WriteLine("2222222222 repeated word " + word + " count is now " + wordCounts[word]);
                     }
+                    log += word + " count: " + wordCounts[word] + "\n";
 
 
                 }
@@ -84,6 +89,9 @@ D.C.\u2026 https://t.co/9WJZ8iTCQV', 'created_at': 'Fri Dec 30 19:46:55 +0000 20
                 //string currentMatchQuery = matchQuery.ToString();
 
             }
+
+            return log;
+
             }
             //System.Diagnostics.Debug.WriteLine(list.Count);
         }

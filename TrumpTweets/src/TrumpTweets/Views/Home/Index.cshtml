@@ -30,7 +30,7 @@
 
 
 
-    var frequency_list = @ViewBag.log;
+    var frequency_list = @Html.Raw(ViewBag.log);
 
 
     var color = d3.scale.linear()

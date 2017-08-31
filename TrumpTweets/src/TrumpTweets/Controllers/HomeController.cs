@@ -48,25 +48,32 @@ namespace TrumpTweets.Controllers
             // we will need a dictionary wordCounts
             Dictionary<string, int> wordCounts = new Dictionary<string, int>();
 
-            //process data
+            // we need a stop list of words to not count
+            // first list will not include pronouns
+            //List<string> StopList = new List<string> { "rt", "http", "https", "https:", "co", "com", "in", "at", "will", "to", "the", "a", "an", "and", "of", "for", "on", "it", "was", "is", "be", "have", "are", "that", "as", "was", "were", "by", "out", "if"};
+            // another list includes pronouns
+            List<string> StopList = new List<string> { "me", "i", "my", "he", "him", "his", "she", "her", "hers", "you", "u", "your", "yours", "we", "our", "ours", "they", "their", "theirs", "rt", "http", "https", "https:", "co", "com", "in", "at", "will", "to", "the", "a", "an", "and", "of", "for", "on", "it", "was", "is", "be", "have", "are", "that", "as", "was", "were", "by", "out", "if" };
+
             foreach (Tweet item in list)
             {
                 string textToProcess = item.text;
-                string[] source = textToProcess.Split(new char[] { ' ', '.', '?', ':', '(', ')', ',' }, StringSplitOptions.RemoveEmptyEntries);
-                //source is now an array
-                //so for each item in array, write into the Dictionary wordCounts
+                string textLowered = textToProcess.ToLower();
+                string[] source = textLowered.Split(new string[] {" ", ".", ",", "!", "?", "#", "/", "-", "&", "(", ")" }, StringSplitOptions.RemoveEmptyEntries);
+
                 foreach (string word in source)
-                {
-                    if (!wordCounts.ContainsKey(word))
-                    {
-                        wordCounts.Add(word, 1);
-                        //System.Diagnostics.Debug.WriteLine("11111111111 new word " + word);
-                    }
-                    else
-                    {
-                        wordCounts[word] = wordCounts[word] + 1;
-                        //System.Diagnostics.Debug.WriteLine("2222222222 repeated word " + word + " count is now " + wordCounts[word]);
-                    }
+                    if (!StopList.Contains(word)) {
+                        {
+                            if (!wordCounts.ContainsKey(word))
+                            {
+                                wordCounts.Add(word, 1);
+                                //System.Diagnostics.Debug.WriteLine("11111111111 new word " + word);
+                            }
+                            else
+                            {
+                                wordCounts[word] = wordCounts[word] + 1;
+                                //System.Diagnostics.Debug.WriteLine("2222222222 repeated word " + word + " count is now " + wordCounts[word]);
+                            }
+                        }
                 }
             }
 
@@ -75,7 +82,6 @@ namespace TrumpTweets.Controllers
             {
                 log += word.Key + " " + word.Value + "\n";
             }
-
 
             var wordsForCloud = new List<CloudWord>();
             foreach (var thing in wordCounts)

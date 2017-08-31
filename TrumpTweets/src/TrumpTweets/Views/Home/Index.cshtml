@@ -21,19 +21,21 @@
 </style>
 
 
-<h1>Average Length of Tweet by Source (iPhone or Android)</h1>
+@*<h1>Average Length of Tweet by Source (iPhone or Android)</h1>
 <pre>
     @ViewData["logAvgBySource"]
-</pre>
+</pre>*@
 
 <h1>Word cloud</h1>
+<h5>Data source:  Tweets from Donald Trump from 2016</h5>
+<h5>Data has had punctuation and a list of frequently-used English words</h5>
 
 
 <script>
     var frequency_list = @Html.Raw(ViewBag.log);
     var color = d3.scale.linear()
             .domain([0,1,2,5,10,20,50,100])
-            .range(["#000000", "#FF0000"]);
+            .range(["#6666AA", "#666666", "#446622", "#666600", "#888800", "#AA0000", "#CC0000", "#FF0000"]);
 
     d3.layout.cloud().size([1200, 900])
             .words(frequency_list)

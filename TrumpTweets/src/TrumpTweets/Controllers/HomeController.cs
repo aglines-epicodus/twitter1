@@ -45,17 +45,12 @@ namespace TrumpTweets.Controllers
             // we will need a dictionary wordCounts
             Dictionary<string, int> wordCounts = new Dictionary<string, int>();
 
-          
-
             //process data
             foreach (Tweet item in list)
             {
                 string textToProcess = item.text;
                 string[] source = textToProcess.Split(new char[] { ' ', '.', '?' }, StringSplitOptions.RemoveEmptyEntries);
-
-
                 //source is now an array
-
                 //so for each item in array, write into the Dictionary wordCounts
                 foreach (string word in source)
                 {
@@ -69,15 +64,18 @@ namespace TrumpTweets.Controllers
                         wordCounts[word] = wordCounts[word] + 1;
                         //System.Diagnostics.Debug.WriteLine("2222222222 repeated word " + word + " count is now " + wordCounts[word]);
                     }
-                    log += word + " count: " + wordCounts[word] + "\n";
-
-
+                    //log += word + " count: " + wordCounts[word] + "\n";
                 }
+            }
 
-                   
+            var q = wordCounts.OrderByDescending(kvp => kvp.Value);
+            foreach (var word in q)
+            {
+                log += word.Key + " " + word.Value + "\n";
             }
 
             return log;
+
 
             }
             //System.Diagnostics.Debug.WriteLine(list.Count);

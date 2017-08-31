@@ -15,11 +15,21 @@ namespace TrumpTweets.Controllers
 {
     public class HomeController : Controller
     {
+        //PRE-Processing tweet data:
+
+        //Uncomment the next 2 lines to use actual file - but it needs a relative path, won't work on other computers?
+        //static string file = @"C:\Users\Andrew Glines\Source\Repos\twitter1\TrumpTweets\src\TrumpTweets\realDonaldTrump2016tweets.json";
+        //static string tweets = System.IO.File.ReadAllText(file);
+
+        // use test data while coding isntead
+        static string tweets = @"[{'source': 'Twitter for iPhone', 'id_str': '815271067749060609', 'text': 'RT RT @realDonaldTrump: Happy Happy Birthday @DonaldJTrumpJr!\nhttps://t.co/uRxyCD3hBz', 'created_at': 'Sat Dec 31 18:59:04 +0000 2016', 'retweet_count': 9529, 'in_reply_to_user_id_str': null, 'favorite_count': 0, 'is_retweet': true},{'source': 'Twitter for iPhone', 'id_str': '814920722208296960', 'text': 'Happy Join @AmerIcan32, founded by Hall of Fame legend legend @JimBrownNFL32 onsin Washington, D.C.\u2026 https://t.co/9WJZ8iTCQV', 'created_at': 'Fri Dec 30 19:46:55 +0000 2016', 'retweet_count': 7366, 'in_reply_to_user_id_str': null, 'favorite_count': 25336, 'is_retweet': false}]";
+        static List<Tweet> list = JsonConvert.DeserializeObject<List<Tweet>>(tweets);
+
         string log = "";
 
         public IActionResult Index()
         {
-            ConvertTweets();
+            WordCounts();
 
             // method store text data from each tweet
             // render this data in View for a small number of those tweets
@@ -32,16 +42,8 @@ namespace TrumpTweets.Controllers
             return View();
         }
 
-        public string ConvertTweets()
+        public string WordCounts()
         {
-            //Uncomment the next 2 lines to use actual file - but it needs a relative path, won't work on other computers?
-            //string file = @"C:\Users\Andrew Glines\Source\Repos\twitter1\TrumpTweets\src\TrumpTweets\realDonaldTrump2016tweets.json";
-            //string tweets = System.IO.File.ReadAllText(file);
-
-            // use test data while coding isntead
-            string tweets = @"[{'source': 'Twitter for iPhone', 'id_str': '815271067749060609', 'text': 'RT RT @realDonaldTrump: Happy Happy Birthday @DonaldJTrumpJr!\nhttps://t.co/uRxyCD3hBz', 'created_at': 'Sat Dec 31 18:59:04 +0000 2016', 'retweet_count': 9529, 'in_reply_to_user_id_str': null, 'favorite_count': 0, 'is_retweet': true},{'source': 'Twitter for iPhone', 'id_str': '814920722208296960', 'text': 'Happy Join @AmerIcan32, founded by Hall of Fame legend legend @JimBrownNFL32 onsin Washington, D.C.\u2026 https://t.co/9WJZ8iTCQV', 'created_at': 'Fri Dec 30 19:46:55 +0000 2016', 'retweet_count': 7366, 'in_reply_to_user_id_str': null, 'favorite_count': 25336, 'is_retweet': false}]";
-            List<Tweet> list = JsonConvert.DeserializeObject<List<Tweet>>(tweets);
-
             // we will need a dictionary wordCounts
             Dictionary<string, int> wordCounts = new Dictionary<string, int>();
 
